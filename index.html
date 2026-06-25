@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>MAYUU's UNIVERSE 🌌</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Link Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Floating Interactive Canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Main Container -->
+  <main id="app-container">
+
+    <!-- 1. OPENING SCREEN -->
+    <section id="screen-opening" class="screen active">
+      <div class="opening-content">
+        <div id="central-star" class="glowing-star pulsing"></div>
+        <div class="text-group">
+          <p class="opening-msg" id="op-text-1">Hi MAYUU...</p>
+          <p class="opening-msg hint-text" id="op-text-2">Touch the star.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. COSMIC AWAKENING -->
+    <section id="screen-awakening" class="screen">
+      <div class="glass-card story-card">
+        <div class="awakening-story">
+          <p class="story-line" id="story-line-1">"Every star has a story."</p>
+          <p class="story-line" id="story-line-2">"Tonight..."</p>
+          <p class="story-line" id="story-line-3">"This universe wants to tell yours."</p>
+        </div>
+        <button id="enter-btn" class="btn btn-primary pulse-glow hidden-btn">
+          Enter the Universe ✨
+        </button>
+      </div>
+    </section>
+
+    <!-- 3. GALAXY JOURNEY (PLANETS SLIDES) -->
+    <section id="screen-journey" class="screen">
+      <div class="slides-wrapper">
+
+        <!-- PLANET ONE: STRENGTH -->
+        <div class="journey-slide active" id="slide-strength">
+          <div class="planet-container">
+            <div class="planet planet-strength"></div>
+          </div>
+          <div class="slide-content glass-card">
+            <h2 class="chapter-title">Strength</h2>
+            <div class="chapter-story">
+              <p class="chapter-line" data-delay="0.1">"You've made it through every difficult day you've ever faced."</p>
+              <p class="chapter-line" data-delay="0.4">"And that's something to be proud of."</p>
+              <p class="chapter-line" data-delay="0.7">"You are stronger than your doubts."</p>
+            </div>
+            
+            <div class="photo-frame" data-delay="0.9">
+              <img src="mayuu2.jpg" alt="Strength Photo" class="photo-img">
+            </div>
+
+            <button class="btn btn-secondary slide-next-btn" data-delay="1.2">
+              Continue →
+            </button>
+          </div>
+        </div>
+
+        <!-- PLANET TWO: KINDNESS -->
+        <div class="journey-slide" id="slide-kindness">
+          <div class="planet-container">
+            <div class="planet planet-kindness"></div>
+          </div>
+          <div class="slide-content glass-card">
+            <h2 class="chapter-title">Kindness</h2>
+            <div class="chapter-story">
+              <p class="chapter-line" data-delay="0.1">"Kind people often don't realize how much they matter."</p>
+              <p class="chapter-line" data-delay="0.4">"You make people feel safe."</p>
+              <p class="chapter-line" data-delay="0.7">"You make ordinary moments brighter."</p>
+              <p class="chapter-line" data-delay="1.0">"Never lose that."</p>
+            </div>
+
+            <div class="photo-frame" data-delay="1.2">
+              <img src="mayuu3.jpg" alt="Kindness Photo" class="photo-img">
+            </div>
+
+            <button class="btn btn-secondary slide-next-btn" data-delay="1.5">
+              Continue →
+            </button>
+          </div>
+        </div>
+
+        <!-- PLANET THREE: SMILE -->
+        <div class="journey-slide" id="slide-smile">
+          <div class="planet-container">
+            <div class="planet planet-smile"></div>
+          </div>
+          <div class="slide-content glass-card">
+            <h2 class="chapter-title">Smile</h2>
+            <div class="chapter-story">
+              <p class="chapter-line" data-delay="0.1">"Your smile has a quiet kind of magic."</p>
+              <p class="chapter-line" data-delay="0.4">"It doesn't need to be perfect."</p>
+              <p class="chapter-line" data-delay="0.7">"It simply makes the world feel lighter."</p>
+            </div>
+
+            <div class="photo-frame" data-delay="0.9">
+              <img src="mayuu5.jpg" alt="Smile Photo" class="photo-img">
+            </div>
+
+            <button class="btn btn-secondary slide-next-btn" data-delay="1.2">
+              Continue →
+            </button>
+          </div>
+        </div>
+
+        <!-- PLANET FOUR: DREAMS -->
+        <div class="journey-slide" id="slide-dreams">
+          <div class="planet-container">
+            <div class="planet planet-dreams"></div>
+          </div>
+          <div class="slide-content glass-card">
+            <h2 class="chapter-title">Dreams</h2>
+            <div class="chapter-story">
+              <p class="chapter-line" data-delay="0.1">"There will be difficult days."</p>
+              <p class="chapter-line" data-delay="0.4">"There will also be beautiful ones."</p>
+              <p class="chapter-line" data-delay="0.7">"Keep believing in yourself."</p>
+              <p class="chapter-line" data-delay="1.0">"Your story has only just begun."</p>
+            </div>
+
+            <div class="photo-frame" data-delay="1.2">
+              <img src="mayuu4.jpg" alt="Dreams Photo" class="photo-img">
+            </div>
+
+            <button class="btn btn-secondary slide-next-btn" data-delay="1.5">
+              Continue →
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. THE MOON & PHOTO REVEAL -->
+    <section id="screen-moon" class="screen">
+      <div class="moon-journey-wrapper scrollable-content">
+        
+        <div class="moon-reveal-container">
+          <div id="glow-moon" class="glowing-moon">
+            <div class="moon-image-wrapper">
+              <img src="mayuu1.jpg" alt="MAYUU" id="moon-revealed-img">
+            </div>
+          </div>
+          
+          <div id="moon-prompt-container">
+            <p class="moon-hint-text">"There's one final light in this universe."</p>
+            <button id="reveal-btn" class="btn btn-primary pulse-glow">Reveal</button>
+          </div>
+        </div>
+
+        <!-- Final Message List -->
+        <div id="final-message-container" class="final-message-box glass-card hidden">
+          <div class="final-lines">
+            <p class="final-line" data-delay="0.1">MAYUU...</p>
+            <p class="final-line" data-delay="0.4">You don't have to shine every day.</p>
+            <p class="final-line" data-delay="0.7">Even stars disappear during daylight.</p>
+            <p class="final-line" data-delay="1.0">But they're always there.</p>
+            <p class="final-line" data-delay="1.3">So are your strength...</p>
+            <p class="final-line" data-delay="1.6">So is your kindness...</p>
+            <p class="final-line" data-delay="1.9">So is your beautiful smile.</p>
+            <p class="final-line" data-delay="2.2">Never let one difficult day convince you that you aren't amazing.</p>
+            <p class="final-line" data-delay="2.5">You matter.</p>
+            <p class="final-line" data-delay="2.8">You are appreciated.</p>
+            <p class="final-line" data-delay="3.1">You are enough.</p>
+            <p class="final-line" data-delay="3.4">And no matter how big the universe is...</p>
+            <p class="final-line font-emphasis" data-delay="3.7">It will never have another person exactly like you.</p>
+          </div>
+          
+          <div id="glowing-heart-container" class="glowing-heart-box hidden">
+            <span class="glowing-heart">❤️</span>
+          </div>
+
+          <button id="ending-trigger-btn" class="btn btn-secondary hidden" style="margin-top: 1.5rem;">
+            Watch the Stars ✨
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. ENDING SCREEN (Star Morphing) -->
+    <section id="screen-ending" class="screen">
+      <div class="ending-container">
+        <div class="ending-text-wrapper">
+          <p id="ending-keep-smiling" class="ending-msg-line">"Keep smiling."</p>
+          <div id="ending-credits" class="ending-msg-line credits-line">
+            <span>Made with lots of love by HINDOCHI ❤️</span>
+            <button id="replay-btn" class="btn btn-replay">🌌 Replay Journey 🌌</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
