@@ -195,6 +195,7 @@
 
     <!-- 5. ENDING SCREEN (Star Morphing) -->
     <section id="screen-ending" class="screen">
+      <div id="floating-photos-container"></div>
       <div class="ending-container">
         <div class="ending-text-wrapper">
           <p id="ending-keep-smiling" class="ending-msg-line">"Keep smiling."</p>
@@ -207,6 +208,27 @@
     </section>
 
   </main>
+
+  <!-- Cinematic Climax Video Portal -->
+  <div id="cinematic-portal"></div>
+  
+  <div id="video-climax-container">
+    <div class="climax-video-frame">
+      <video id="climax-video" src="climax_video.mp4" playsinline></video>
+    </div>
+    <button id="skip-climax-btn" class="climax-btn-skip">Skip to the Stars ✨</button>
+  </div>
+
+  <audio id="bg-music" src="aarzu.webm" loop></audio>
+  
+  <!-- Music Control Button -->
+  <button id="music-toggle-btn" class="music-btn">
+    <div class="music-icon-wrapper">
+      <span class="music-bar bar-1"></span>
+      <span class="music-bar bar-2"></span>
+      <span class="music-bar bar-3"></span>
+    </div>
+  </button>
 
   <script src="script.js"></script>
 </body>

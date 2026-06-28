@@ -33,7 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentSlideIndex = 0;
 
   // Photo Gallery State
-  const photoUrls = ['mayuu1.jpg', 'mayuu2.jpg', 'mayuu3.jpg', 'mayuu4.jpg', 'mayuu5.jpg'];
+  const photoUrls = [
+    'mayuu1.jpg', 'mayuu2.jpg', 'mayuu3.jpg', 'mayuu4.jpg', 'mayuu5.jpg',
+    'mayuu6.jpg', 'mayuu7.jpg', 'mayuu8.jpg', 'mayuu9.jpg', 'mayuu10.jpg'
+  ];
   let currentPhotoIndex = 0;
 
   // Particle Canvas Setup
@@ -728,32 +731,116 @@ document.addEventListener('DOMContentLoaded', () => {
     screenMoon.style.transform = 'scale(0.85)';
     screenMoon.style.opacity = '0';
 
-    setTimeout(() => {
-      screenMoon.classList.remove('active');
-      screenEnding.classList.add('active');
-      
-      particleMode = 'morph-letters';
-      const textCoords = getTextMorphCoords("MAYUU", 52);
-      triggerMorph(textCoords);
+    // Hide music control button during video playback
+    if (musicToggleBtn) {
+      musicToggleBtn.classList.remove('reveal');
+    }
+
+    // Fade out background music so the video's audio is clean
+    if (bgMusic) {
+      let fadeOutInterval = setInterval(() => {
+        if (bgMusic.volume > 0.02) {
+          bgMusic.volume -= 0.02;
+        } else {
+          clearInterval(fadeOutInterval);
+          bgMusic.pause();
+        }
+      }, 50);
+    }
+
+    // Cinematic Transition: Galaxy Portal expands
+    const portal = document.getElementById('cinematic-portal');
+    const climaxContainer = document.getElementById('video-climax-container');
+    const climaxVideo = document.getElementById('climax-video');
+
+    if (portal && climaxContainer && climaxVideo) {
+      portal.classList.remove('fade-out');
+      portal.classList.add('active');
 
       setTimeout(() => {
-        document.getElementById('ending-keep-smiling').classList.add('reveal');
+        screenMoon.classList.remove('active');
+        climaxContainer.classList.add('active');
+        
+        // Auto-play the video climax (try with sound first)
+        climaxVideo.muted = false;
+        climaxVideo.currentTime = 0;
+        climaxVideo.play().catch(err => {
+          console.log("Video auto-play with sound blocked, trying muted fallback:", err);
+          climaxVideo.muted = true;
+          climaxVideo.play().catch(e => console.log(e));
+        });
+
+        setTimeout(() => {
+          portal.classList.add('fade-out');
+        }, 300);
+
+      }, 1000); // trigger mid-way through the portal expansion
+    } else {
+      transitionFromClimaxToEnding();
+    }
+  });
+
+  function transitionFromClimaxToEnding() {
+    const portal = document.getElementById('cinematic-portal');
+    const climaxContainer = document.getElementById('video-climax-container');
+    const climaxVideo = document.getElementById('climax-video');
+
+    if (climaxVideo) climaxVideo.pause();
+    if (climaxContainer) climaxContainer.classList.remove('active');
+    if (portal) portal.classList.remove('active', 'fade-out');
+
+    // Start playing background music softly (trimmed to main lyrics)
+    if (bgMusic) {
+      bgMusic.volume = 0.15;
+      bgMusic.muted = false;
+      bgMusic.currentTime = 0;
+      bgMusic.play().catch(err => {
+        console.log("Audio auto-play blocked or failed:", err);
+      });
+    }
+
+    // Reveal music button
+    if (musicToggleBtn) {
+      musicToggleBtn.classList.remove('muted');
+      musicToggleBtn.classList.add('reveal');
+    }
+
+    // Start floating photos
+    startFloatingPhotos();
+
+    // Show ending screen
+    screenEnding.classList.add('active');
+    
+    particleMode = 'morph-letters';
+    const textCoords = getTextMorphCoords("MAYUU", 52);
+    triggerMorph(textCoords);
+
+    setTimeout(() => {
+      document.getElementById('ending-keep-smiling').classList.add('reveal');
+      
+      setTimeout(() => {
+        particleMode = 'morph-heart';
+        const heartCoords = getHeartMorphCoords(75);
+        triggerMorph(heartCoords);
         
         setTimeout(() => {
-          particleMode = 'morph-heart';
-          const heartCoords = getHeartMorphCoords(75);
-          triggerMorph(heartCoords);
-          
-          setTimeout(() => {
-            document.getElementById('ending-credits').classList.add('reveal');
-          }, 1200);
-          
-        }, 2200); // Snappier morph transitions
+          document.getElementById('ending-credits').classList.add('reveal');
+        }, 1200);
+        
+      }, 2200); // Snappier morph transitions
 
-      }, 2000);
+    }, 2000);
+  }
 
-    }, 600);
-  });
+  // Hook up climax video event listeners
+  const climaxVideoEl = document.getElementById('climax-video');
+  const skipClimaxBtn = document.getElementById('skip-climax-btn');
+  if (climaxVideoEl) {
+    climaxVideoEl.addEventListener('ended', transitionFromClimaxToEnding);
+  }
+  if (skipClimaxBtn) {
+    skipClimaxBtn.addEventListener('click', transitionFromClimaxToEnding);
+  }
 
   // Replay surprise setup
   replayBtn.addEventListener('click', () => {
@@ -761,6 +848,39 @@ document.addEventListener('DOMContentLoaded', () => {
     currentPhotoIndex = 0;
     particleMode = 'opening';
     
+    // Reset climax video elements
+    const portal = document.getElementById('cinematic-portal');
+    const climaxContainer = document.getElementById('video-climax-container');
+    const climaxVideo = document.getElementById('climax-video');
+    if (climaxVideo) {
+      climaxVideo.pause();
+      climaxVideo.currentTime = 0;
+    }
+    if (climaxContainer) climaxContainer.classList.remove('active');
+    if (portal) portal.classList.remove('active', 'fade-out');
+
+    // Stop floating photos
+    stopFloatingPhotos();
+
+    // Hide music control and fade out music
+    if (musicToggleBtn) {
+      musicToggleBtn.classList.remove('reveal');
+      musicToggleBtn.classList.remove('muted');
+    }
+    if (bgMusic) {
+      let fadeInterval = setInterval(() => {
+        if (bgMusic.volume > 0.02) {
+          bgMusic.volume -= 0.02;
+        } else {
+          clearInterval(fadeInterval);
+          bgMusic.pause();
+          bgMusic.currentTime = 0;
+          bgMusic.volume = 0.15;
+          bgMusic.muted = false;
+        }
+      }, 50);
+    }
+
     particles.forEach(p => {
       p.mode = 'float';
       p.targetX = null;
@@ -795,5 +915,102 @@ document.addEventListener('DOMContentLoaded', () => {
     screenEnding.classList.remove('active');
     screenOpening.classList.add('active');
   });
+
+  // ==========================================================================
+  // 5. Background Music & Floating Polaroid Photos System
+  // ==========================================================================
+  const bgMusic = document.getElementById('bg-music');
+  const musicToggleBtn = document.getElementById('music-toggle-btn');
+  let floatInterval = null;
+
+  function startFloatingPhotos() {
+    const container = document.getElementById('floating-photos-container');
+    if (!container) return;
+    container.innerHTML = '';
+    
+    const photos = [
+      'mayuu1.jpg', 'mayuu2.jpg', 'mayuu3.jpg', 'mayuu4.jpg', 'mayuu5.jpg',
+      'mayuu6.jpg', 'mayuu7.jpg', 'mayuu8.jpg', 'mayuu9.jpg', 'mayuu10.jpg'
+    ];
+    
+    function spawn() {
+      const frame = document.createElement('div');
+      frame.className = 'floating-photo-frame';
+      
+      const img = document.createElement('img');
+      // Pick a random photo from the pool of 10 photos to cycle infinitely and organically
+      const randomPhoto = photos[Math.floor(Math.random() * photos.length)];
+      img.src = randomPhoto;
+      frame.appendChild(img);
+      
+      // Randomize properties with 3D Depth
+      const left = Math.random() * 80 + 10; // 10% to 90%
+      const depth = Math.random(); // 0 (background) to 1 (foreground)
+      
+      const width = 100 + depth * 40; // 100px to 140px
+      const duration = 24 - depth * 11; // 24s (slow background) to 13s (fast foreground)
+      const zIndex = Math.floor(5 + depth * 10); // z-index 5 to 15
+      const blurVal = (1 - depth) * 1.5; // background is slightly blurry
+      const opacityVal = 0.35 + depth * 0.55; // background is translucent
+      
+      const rotStart = Math.random() * 20 - 10; // -10deg to 10deg
+      const rotMid = Math.random() * 30 - 15; // -15deg to 15deg
+      const rotEnd = Math.random() * 20 - 10;
+      const sway = Math.random() * 60 - 30; // -30px to 30px horizontal drift
+      
+      frame.style.left = `${left}%`;
+      frame.style.width = `${width}px`;
+      frame.style.zIndex = zIndex;
+      frame.style.opacity = opacityVal;
+      if (blurVal > 0.4) {
+        frame.style.filter = `blur(${blurVal}px)`;
+      }
+      
+      frame.style.setProperty('--duration', `${duration}s`);
+      frame.style.setProperty('--rot-start', `${rotStart}deg`);
+      frame.style.setProperty('--rot-mid', `${rotMid}deg`);
+      frame.style.setProperty('--rot-end', `${rotEnd}deg`);
+      frame.style.setProperty('--sway', `${sway}px`);
+      
+      container.appendChild(frame);
+      
+      // Remove element after animation completes to avoid memory leak
+      setTimeout(() => {
+        frame.remove();
+      }, duration * 1000);
+    }
+    
+    // Spawn initial set
+    for (let i = 0; i < 6; i++) {
+      setTimeout(spawn, i * 1200);
+    }
+    
+    // Continuously spawn faster for a denser, never-ending visual flow
+    floatInterval = setInterval(spawn, 2200);
+  }
+
+  function stopFloatingPhotos() {
+    if (floatInterval) {
+      clearInterval(floatInterval);
+      floatInterval = null;
+    }
+    const container = document.getElementById('floating-photos-container');
+    if (container) container.innerHTML = '';
+  }
+
+  // Music toggle button listener
+  if (musicToggleBtn && bgMusic) {
+    musicToggleBtn.addEventListener('click', () => {
+      bgMusic.muted = !bgMusic.muted;
+      if (bgMusic.muted) {
+        musicToggleBtn.classList.add('muted');
+      } else {
+        musicToggleBtn.classList.remove('muted');
+        if (bgMusic.paused) {
+          bgMusic.play().catch(e => console.log(e));
+        }
+      }
+    });
+  }
 
 });

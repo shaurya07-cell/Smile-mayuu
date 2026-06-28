@@ -21,5 +21,5 @@ Handler.extensions_map = {
 socketserver.TCPServer.allow_reuse_address = True
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print(f"Server running at http://localhost:{PORT}")
+    print(f"Server running at http://localhost:8000")
     httpd.serve_forever()
